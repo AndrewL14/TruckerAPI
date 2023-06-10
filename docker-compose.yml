@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  pgdb:
+    image: postgres
+    container_name: trucker_server
+    ports:
+      - '6054:5432'
+    environment:
+      - POSTGRES_USER=trucker
+      - POSTGRES_PASSWORD=adst5edf
+      - POSTGRES_DB=trucker-db
+    volumes:
+      - ./docker/pg/postgres.conf:/etc/postgresql/postgresql.conf
+      - ./data/pg:/var/lib/postgresql/data
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    networks:
+      - postgres
+    restart: always
+
+  pgadminFp:
+    container_name: pgadmin_2121
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-drew@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-dgsy36f7dh98}
+      PGADMIN_SERVER_JSON_FILE: /tmp/.pgadmin/servers.json
+    volumes:
+      - ./data/pgadmin:/tmp/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5051}:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
