@@ -7,13 +7,11 @@ services:
     ports:
       - '6054:5432'
     environment:
-      - POSTGRES_USER=trucker
-      - POSTGRES_PASSWORD=adst5edf
-      - POSTGRES_DB=trucker-db
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=api-starter-0121
     volumes:
-      - ./docker/pg/postgres.conf:/etc/postgresql/postgresql.conf
       - ./data/pg:/var/lib/postgresql/data
-    command: postgres -c config_file=/etc/postgresql/postgresql.conf
     networks:
       - postgres
     restart: always
